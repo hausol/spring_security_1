@@ -7,12 +7,26 @@
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
    <http> 
+      <intercept-url pattern="/security/all" access="permitAll" />
+      <intercept-url pattern="/security/member" access="hasRole('ROLE_MEMBER')" />
+      <intercept-url pattern="/security/admin" access="hasRole('ROLE_ADMIN')" />
       <form-login />
-   </http> 
-   
-   <!-- provider --> 
-   <authentication-manager>
+      
+      <!-- 403 에러 처리 -->
+      <access-denied-handler error-page="/security/accessError"/>
+      
+   </http>
 
-   </authentication-manager>
+	<!-- provider -->
+	<authentication-manager>
+	
+		<authentication-provider>
+			<user-service>
+				<user name="member" password="{noop}member" authorities="ROLE_MEMBER" /> <!-- 패스워드에 {noop}를 안주면 에러남 -->
+				<user name="admin" password="{noop}admin" authorities="ROLE_MEMBER,ROLE_ADMIN" />
+			</user-service>
+		</authentication-provider>
+		
+	</authentication-manager>
 
 </beans:beans>
