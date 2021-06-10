@@ -1,5 +1,7 @@
 package edu.bit.ex.controller;
 
+import java.security.Principal;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +41,7 @@ public class SecurityController {
     
     // 에러 해결
     @GetMapping("/accessError")
-    public void accessError(Authentication auth, Model model) {
+    public void accessError(Authentication auth, Principal pi, Model model) {
         
         log.info("accessError().." + auth);
         model.addAttribute("msg", "Access Denied");
